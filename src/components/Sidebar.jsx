@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { sun } from "../assets";
 import { navlinks } from "../constants";
-import { IconHeartHandshake } from "@tabler/icons-react";
+import { IconDropletHeart } from "@tabler/icons-react";
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   <div
@@ -15,11 +15,11 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
     onClick={handleClick}
   >
     {!isActive ? (
-      <img src={imgUrl} alt="fund_logo" className="h-6 w-6" />
+      <img src={imgUrl} alt="RedCell_logo" className="h-6 w-6" />
     ) : (
       <img
         src={imgUrl}
-        alt="fund_logo"
+        alt="RedCell_logo"
         className={`h-6 w-6 ${isActive !== name && "grayscale"}`}
       />
     )}
@@ -34,7 +34,7 @@ const Sidebar = () => {
     <div className="sticky top-5 flex h-[93vh] flex-col items-center justify-between">
       <Link to="/">
         <div className="rounded-[10px] bg-[#2c2f32] p-2">
-          <IconHeartHandshake size={40} color="#1ec070" className=" " />
+        <IconDropletHeart size={40} color="#E53935" />
         </div>
       </Link>
 
