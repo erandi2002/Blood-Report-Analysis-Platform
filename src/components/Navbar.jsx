@@ -54,10 +54,10 @@ const Navbar = () => {
       <div className="flex h-[52px] max-w-[458px] flex-row rounded-[100px] bg-[#1c1c24] py-2 pl-4 pr-2 lg:flex-1">
         <input
           type="text"
-          placeholder="Search for records"
+          placeholder="Search blood test reports..."
           className="flex w-full bg-transparent font-epilogue text-[14px] font-normal text-white outline-none placeholder:text-[#4b5264]"
         />
-        <div className="flex h-full w-[72px] cursor-pointer items-center justify-center rounded-[20px] bg-[#4acd8d]">
+        <div className="flex h-full w-[72px] cursor-pointer items-center justify-center rounded-[20px] bg-[#700a0a]">
           <img
             src={search}
             alt="search"
