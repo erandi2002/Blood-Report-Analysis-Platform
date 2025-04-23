@@ -6,7 +6,7 @@ import { useStateContext } from "../context"; // Adjust the import path
 import { CustomButton } from ".";
 import { menu, search } from "../assets";
 import { navlinks } from "../constants";
-import { IconHeartHandshake } from "@tabler/icons-react";
+import { IconDropletHeart } from "@tabler/icons-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -70,14 +70,14 @@ const Navbar = () => {
         <CustomButton
           btnType="button"
           title={authenticated ? "Log Out" : "Log In"}
-          styles={authenticated ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+          styles={authenticated ? "bg-[#700a0a]" : "bg-[#700a0a]"}
           handleClick={handleLoginLogout}
         />
       </div>
 
       <div className="relative flex items-center justify-between sm:hidden">
         <div className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-[10px] bg-[#2c2f32]">
-          <IconHeartHandshake size={40} color="#1ec070" className="p-2" />
+          <IconDropletHeart size={40} color="#E53935" className="p-2" />
         </div>
         <img
           src={menu}
@@ -110,7 +110,7 @@ const Navbar = () => {
                 />
                 <p
                   className={`ml-[20px] font-epilogue text-[14px] font-semibold ${
-                    isActive === link.name ? "text-[#1dc071]" : "text-[#808191]"
+                    isActive === link.name ? "text-[#E53935]" : "text-[#808191]"
                   }`}
                 >
                   {link.name}
