@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  IconAlertCircle,
-  IconCircleDashedCheck,
-  IconFolder,
-  IconHourglassHigh,
-  IconUserScan,
+  IconFileText,
+  IconCircleCheck,
+  IconAlertTriangle,
+  IconAlertOctagon,
 } from "@tabler/icons-react";
+
 import { usePrivy } from "@privy-io/react-auth";
 import MetricsCard from "./MetricsCard"; // Adjust the import path
 import { useStateContext } from "../context"; // Ensure correct import path
@@ -16,12 +16,10 @@ const DisplayInfo = () => {
   const { user } = usePrivy();
   const { fetchUserRecords, records, fetchUserByEmail } = useStateContext();
   const [metrics, setMetrics] = useState({
-    totalFolders: 0,
-    aiPersonalizedTreatment: 0,
-    totalScreenings: 0,
-    completedScreenings: 0,
-    pendingScreenings: 0,
-    overdueScreenings: 0,
+    totalReports: 0,
+    normalReports: 0,
+    abnormalReports: 0,
+    criticalAlerts: 0,
   });
 
   useEffect(() => {
@@ -29,45 +27,29 @@ const DisplayInfo = () => {
       fetchUserByEmail(user.email.address)
         .then(() => {
           console.log(records);
-          const totalFolders = records.length;
-          let aiPersonalizedTreatment = 0;
-          let totalScreenings = 0;
-          let completedScreenings = 0;
-          let pendingScreenings = 0;
-          let overdueScreenings = 0;
+          const totalReports = records.length;
+          let normalReports = 0;
+          let abnormalReports = 0;
+          let criticalAlerts = 0;
 
           records.forEach((record) => {
-            if (record.kanbanRecords) {
+            if (record.analysisResults) {
               try {
-                const kanban = JSON.parse(record.kanbanRecords);
-                aiPersonalizedTreatment += kanban.columns.some(
-                  (column) => column.title === "AI Personalized Treatment",
-                )
-                  ? 1
-                  : 0;
-                totalScreenings += kanban.tasks.length;
-                completedScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "done",
-                ).length;
-                pendingScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "doing",
-                ).length;
-                overdueScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "overdue",
-                ).length;
+                const analysis = JSON.parse(record.analysisResults);
+                if (analysis.status === "normal") normalReports++;
+                if (analysis.status === "abnormal") abnormalReports++;
+                if (analysis.status === "critical") criticalAlerts++;
               } catch (error) {
-                console.error("Failed to parse kanbanRecords:", error);
+                console.error("Failed to parse analysisResults:", error);
               }
             }
           });
 
           setMetrics({
-            totalFolders,
-            aiPersonalizedTreatment,
-            totalScreenings,
-            completedScreenings,
-            pendingScreenings,
-            overdueScreenings,
+            totalReports,
+            normalReports,
+            abnormalReports,
+            criticalAlerts,
           });
         })
         .catch((e) => {
@@ -78,70 +60,44 @@ const DisplayInfo = () => {
 
   const metricsData = [
     {
-      title: "Specialist Appointments Pending",
+      title: "Total Reports Uploaded",
       subtitle: "View",
-      value: metrics.pendingScreenings,
-      icon: IconHourglassHigh,
-      onClick: () => navigate("/appointments/pending"),
+      value: metrics.totalReports,
+      icon: IconFileText,
+      onClick: () => navigate("/reports"),
     },
     {
-      title: "Treatment Progress Update",
+      title: "Normal Reports",
       subtitle: "View",
-      value: `${metrics.completedScreenings} of ${metrics.totalScreenings}`,
-      icon: IconCircleDashedCheck,
-
-      onClick: () => navigate("/treatment/progress"),
+      value: metrics.normalReports,
+      icon: IconCircleCheck,
+      onClick: () => navigate("/reports/normal"),
     },
     {
-      title: "Total Folders",
+      title: "Abnormal Reports",
       subtitle: "View",
-      value: metrics.totalFolders,
-      icon: IconFolder,
-      onClick: () => navigate("/folders"),
+      value: metrics.abnormalReports,
+      icon: IconAlertTriangle,
+      onClick: () => navigate("/reports/abnormal"),
     },
     {
-      title: "Total Screenings",
+      title: "Critical Alerts",
       subtitle: "View",
-      value: metrics.totalScreenings,
-      icon: IconUserScan,
-      onClick: () => navigate("/screenings"),
-    },
-    {
-      title: "Completed Screenings",
-      subtitle: "View",
-      value: metrics.completedScreenings,
-      icon: IconCircleDashedCheck,
-      onClick: () => navigate("/screenings/completed"),
-    },
-    {
-      title: "Pending Screenings",
-      subtitle: "View",
-      value: metrics.pendingScreenings,
-      icon: IconHourglassHigh,
-      onClick: () => navigate("/screenings/pending"),
-    },
-    {
-      title: "Overdue Screenings",
-      subtitle: "View",
-      value: metrics.overdueScreenings,
-      icon: IconAlertCircle,
-      onClick: () => navigate("/screenings/overdue"),
+      value: metrics.criticalAlerts,
+      icon: IconAlertOctagon,
+      onClick: () => navigate("/reports/critical"),
     },
   ];
+  
 
   return (
     <div className="flex flex-wrap gap-[26px]">
-      <div className="mt-7 grid w-full gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-2">
-        {metricsData.slice(0, 2).map((metric) => (
+      <div className="mt-7 grid w-full gap-4 sm:grid-cols-2 sm:gap-6">
+        {metricsData.map((metric) => (
           <MetricsCard key={metric.title} {...metric} />
         ))}
       </div>
 
-      <div className="mt-[9px] grid w-full gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-        {metricsData.slice(2).map((metric) => (
-          <MetricsCard key={metric.title} {...metric} />
-        ))}
-      </div>
     </div>
   );
 };

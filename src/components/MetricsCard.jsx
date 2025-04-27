@@ -12,7 +12,7 @@ const MetricsCard = ({
   <div className="flex flex-col rounded-xl border bg-white shadow-sm dark:border-neutral-800 dark:bg-[#13131a]">
     <div className="flex justify-between gap-x-3 p-4 md:p-5">
       <div>
-        <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-500">
+        <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-neutral-300">
           {title}
         </p>
         <div className="mt-1 flex items-center gap-x-2">
@@ -21,8 +21,8 @@ const MetricsCard = ({
           </h3>
         </div>
       </div>
-      <div className="flex size-[46px] h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white dark:bg-[#1c1c24] dark:text-blue-200">
-        <Icon size={25} className="text-green-500" />
+      <div className="flex size-[46px] h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white dark:bg-[#b1a5a5] dark:text-blue-200">
+        <Icon size={25} className="text-[#700a0a]" />
       </div>
     </div>
     <a
