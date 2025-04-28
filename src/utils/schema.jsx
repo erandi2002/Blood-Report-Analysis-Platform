@@ -6,27 +6,20 @@ export const Users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: varchar("username").notNull(),
   age: integer("age").notNull(),
-  location: varchar("location").notNull(),
-  folders: text("folders")
-    .array()
-    .notNull()
-    .default(sql`ARRAY[]::text[]`),
-  treatmentCounts: integer("treatment_counts").notNull(),
-  folder: text("folder")
-    .array()
-    .notNull()
-    .default(sql`ARRAY[]::text[]`),
+  bloodGroup: varchar("blood_group").notNull(),
   createdBy: varchar("created_by").notNull(),
 });
 
 // records schema
-export const Records = pgTable("records", {
+export const Records = pgTable("reports", {
   id: serial("id").primaryKey(),
   userId: integer("user_id")
     .references(() => Users.id)
     .notNull(),
-  recordName: varchar("record_name").notNull(),
-  analysisResult: varchar("analysis_result").notNull(),
-  kanbanRecords: varchar("kanban_records").notNull(),
+  recordName: varchar("report_name").notNull(),
+  status: varchar("status").notNull(),
+  details: text("details").notNull(),// "normal", "abnormal", "critical"
+  analysisResult: varchar("analysis_result").notNull(), // full analysis report text (optional large field)
+  reportDate: varchar("report_date").notNull(), // (optional) date of the report
   createdBy: varchar("created_by").notNull(),
 });
