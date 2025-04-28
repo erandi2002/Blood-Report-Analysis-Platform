@@ -17,9 +17,8 @@ export const Records = pgTable("reports", {
     .references(() => Users.id)
     .notNull(),
   recordName: varchar("report_name").notNull(),
-  status: varchar("status").notNull(),
-  details: text("details").notNull(),// "normal", "abnormal", "critical"
-  analysisResult: varchar("analysis_result").notNull(), // full analysis report text (optional large field)
-  reportDate: varchar("report_date").notNull(), // (optional) date of the report
+  status: varchar("status").notNull(), // "normal", "abnormal", "critical"
+  details: text("details").notNull(), // Full AI-generated analysis text
+  reportDate: varchar("report_date").notNull(), // date of the report
   createdBy: varchar("created_by").notNull(),
 });
