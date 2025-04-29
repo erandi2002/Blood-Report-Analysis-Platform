@@ -11,14 +11,14 @@ export const Users = pgTable("users", {
 });
 
 // records schema
-export const Records = pgTable("reports", {
+export const Records = pgTable("records", {
   id: serial("id").primaryKey(),
   userId: integer("user_id")
     .references(() => Users.id)
     .notNull(),
-  recordName: varchar("report_name").notNull(),
-  status: varchar("status").notNull(), // "normal", "abnormal", "critical"
-  details: text("details").notNull(), // Full AI-generated analysis text
-  reportDate: varchar("report_date").notNull(), // date of the report
+  recordName: varchar("report_name(date)").notNull(),
+  status: varchar("report_status").notNull(), // "normal", "abnormal", "critical"
+  details: text("analysis_details").notNull(), // Full AI-generated analysis text
+  // reportDate: varchar("report_date").notNull(), // date of the report
   createdBy: varchar("created_by").notNull(),
 });

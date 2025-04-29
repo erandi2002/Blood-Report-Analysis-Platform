@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IconCirclePlus } from "@tabler/icons-react";
+import { IconUpload } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import { useStateContext } from "../../context/index";
@@ -77,8 +77,8 @@ const Index = () => {
         className="mt-6 inline-flex items-center gap-x-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-700 dark:bg-[#13131a] dark:text-white dark:hover:bg-neutral-800"
         onClick={handleOpenModal}
       >
-        <IconCirclePlus />
-        Create Record
+        <IconUpload />
+        Upload Report
       </button>
 
       <CreateRecordModal
