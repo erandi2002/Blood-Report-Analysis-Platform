@@ -175,18 +175,18 @@ function SingleRecordDetails() {
             <div className="inline-block min-w-full p-1.5 align-middle">
               <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-[#13131a]">
                 <div className="border-b border-gray-200 px-6 py-4 dark:border-neutral-700">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
                     Personalized AI-Driven Treatment Plan
-                  </h2>
+                  </h3>
                   <p className="text-sm text-gray-600 dark:text-neutral-400">
                     A tailored medical strategy leveraging advanced AI insights.
                   </p>
                 </div>
                 <div className="flex w-full flex-col px-6 py-4 text-white">
                   <div>
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                       Analysis Result
-                    </h2>
+                    </h3>
                     <div className="space-y-2">
                       <ReactMarkdown>{analysisResult}</ReactMarkdown>
                     </div>

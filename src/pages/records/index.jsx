@@ -45,7 +45,7 @@ const Index = () => {
         const newRecord = await createRecord({
           userId: currentUser.id,
           recordName: foldername,
-          status: "",
+          analysisResult: "",
           details: "",
           createdBy: user.email.address,
         });
