@@ -71,7 +71,7 @@ const DisplayInfo = () => {
       onClick: () => navigate("/medical-records"),
     },
     {
-      title: "Completed Follow-Ups",
+      title: "completed Follow-Ups",
       subtitle: "View",
       value: metrics.completedFollowUps,
       icon: IconCircleCheck,

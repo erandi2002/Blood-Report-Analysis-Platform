@@ -23,7 +23,7 @@ const Profile = () => {
   return (
     <div className="mx-auto mt-16 max-w-lg rounded-lg bg-[#1c1c24] p-6 shadow-lg">
       <div className="flex flex-col items-center">
-        <p className="mb-4 flex h-20 w-20 flex-row items-center justify-center rounded-full bg-[#0092F3]">
+        <p className="mb-4 flex h-20 w-20 flex-row items-center justify-center rounded-full bg-[#8e6363]">
           <span className="text-6xl">😊</span>
         </p>
         <h1 className="mb-2 text-3xl font-semibold text-white">User Profile</h1>
@@ -43,9 +43,9 @@ const Profile = () => {
             {currentUser.age}
           </p>
 
-          <p className="mb-1 text-sm text-gray-400">Location:</p>
+          <p className="mb-1 text-sm text-gray-400">Blood Group:</p>
           <p className="text-lg font-semibold text-white">
-            {currentUser.location}
+            {currentUser.bloodGroup}
           </p>
         </div>
       </div>

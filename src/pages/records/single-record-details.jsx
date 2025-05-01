@@ -83,10 +83,13 @@ function SingleRecordDetails() {
                     2. **Key Highlights**  
                     List any values that are outside the normal range (e.g., low hemoglobin, high WBC). Keep it clear and short.
 
-                    3. **Interpretation**  
+                    3. **Report Stage**  
+                    Uploaded blood report status. (e.g. normal, abnormal,critical).
+
+                    4. **Interpretation**  
                     Explain what those values might mean in everyday language. Avoid using difficult medical terms. Keep sentences short and clear.
 
-                    4. **Recommendations**  
+                    5. **Recommendations**  
                     Suggest simple next steps (like repeating the test, improving diet, seeing a doctor). Keep it calm and supportive.
                     **Tone:** Use friendly, clear, and reassuring language. Avoid technical or scary words.  
                     Write in short paragraphs so it's easy to read.  
