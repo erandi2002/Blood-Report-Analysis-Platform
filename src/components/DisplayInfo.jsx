@@ -1,59 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  IconAlertCircle,
-  IconCircleDashedCheck,
+  IconAlertTriangle,
+  IconCircleCheck,
   IconFolder,
   IconHourglassHigh,
-  IconUserScan,
+  IconChartBar,
 } from "@tabler/icons-react";
 import { usePrivy } from "@privy-io/react-auth";
-import MetricsCard from "./MetricsCard"; // Adjust the import path
-import { useStateContext } from "../context"; // Ensure correct import path
+import MetricsCard from "./MetricsCard";
+import { useStateContext } from "../context";
 
 const DisplayInfo = () => {
   const navigate = useNavigate();
   const { user } = usePrivy();
   const { fetchUserRecords, records, fetchUserByEmail } = useStateContext();
+
   const [metrics, setMetrics] = useState({
-    totalFolders: 0,
-    aiPersonalizedTreatment: 0,
-    totalScreenings: 0,
-    completedScreenings: 0,
-    pendingScreenings: 0,
-    overdueScreenings: 0,
+    totalReports: 0,
+    completedFollowUps: 0,
+    pendingActions: 0,
+    criticalAlerts: 0,
   });
 
   useEffect(() => {
     if (user) {
       fetchUserByEmail(user.email.address)
         .then(() => {
-          console.log(records);
-          const totalFolders = records.length;
-          let aiPersonalizedTreatment = 0;
-          let totalScreenings = 0;
-          let completedScreenings = 0;
-          let pendingScreenings = 0;
-          let overdueScreenings = 0;
+          let totalReports = records.length;
+          let completedFollowUps = 0;
+          let pendingActions = 0;
+          let criticalAlerts = 0;
 
           records.forEach((record) => {
             if (record.kanbanRecords) {
               try {
                 const kanban = JSON.parse(record.kanbanRecords);
-                aiPersonalizedTreatment += kanban.columns.some(
-                  (column) => column.title === "AI Personalized Treatment",
-                )
-                  ? 1
-                  : 0;
-                totalScreenings += kanban.tasks.length;
-                completedScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "done",
+                completedFollowUps += kanban.tasks.filter(
+                  (task) => task.columnId === "done"
                 ).length;
-                pendingScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "doing",
+                pendingActions += kanban.tasks.filter(
+                  (task) => task.columnId === "todo"
                 ).length;
-                overdueScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "overdue",
+                criticalAlerts += kanban.tasks.filter((task) =>
+                  task.content.toLowerCase().includes("urgent")
                 ).length;
               } catch (error) {
                 console.error("Failed to parse kanbanRecords:", error);
@@ -62,88 +52,75 @@ const DisplayInfo = () => {
           });
 
           setMetrics({
-            totalFolders,
-            aiPersonalizedTreatment,
-            totalScreenings,
-            completedScreenings,
-            pendingScreenings,
-            overdueScreenings,
+            totalReports,
+            completedFollowUps,
+            pendingActions,
+            criticalAlerts,
           });
         })
-        .catch((e) => {
-          console.log(e);
-        });
+        .catch((e) => console.error(e));
     }
   }, [user, fetchUserRecords, records]);
 
   const metricsData = [
     {
-      title: "Specialist Appointments Pending",
+      title: "Total Reports Uploaded",
       subtitle: "View",
-      value: metrics.pendingScreenings,
-      icon: IconHourglassHigh,
-      onClick: () => navigate("/appointments/pending"),
-    },
-    {
-      title: "Treatment Progress Update",
-      subtitle: "View",
-      value: `${metrics.completedScreenings} of ${metrics.totalScreenings}`,
-      icon: IconCircleDashedCheck,
-
-      onClick: () => navigate("/treatment/progress"),
-    },
-    {
-      title: "Total Folders",
-      subtitle: "View",
-      value: metrics.totalFolders,
+      value: metrics.totalReports,
       icon: IconFolder,
-      onClick: () => navigate("/folders"),
+      onClick: () => navigate("/medical-records"),
     },
     {
-      title: "Total Screenings",
+      title: "Completed Follow-Ups",
       subtitle: "View",
-      value: metrics.totalScreenings,
-      icon: IconUserScan,
-      onClick: () => navigate("/screenings"),
-    },
-    {
-      title: "Completed Screenings",
-      subtitle: "View",
-      value: metrics.completedScreenings,
-      icon: IconCircleDashedCheck,
+      value: metrics.completedFollowUps,
+      icon: IconCircleCheck,
       onClick: () => navigate("/screenings/completed"),
     },
     {
-      title: "Pending Screenings",
+      title: "Pending Actions",
       subtitle: "View",
-      value: metrics.pendingScreenings,
+      value: metrics.pendingActions,
       icon: IconHourglassHigh,
       onClick: () => navigate("/screenings/pending"),
     },
     {
-      title: "Overdue Screenings",
+      title: "Critical Alerts",
       subtitle: "View",
-      value: metrics.overdueScreenings,
-      icon: IconAlertCircle,
-      onClick: () => navigate("/screenings/overdue"),
+      value: metrics.criticalAlerts,
+      icon: IconAlertTriangle,
+      onClick: () => navigate("/screenings/critical"),
+    },
+    {
+      title: "View Progress Charts",
+      subtitle: "Explore",
+      value: "-",
+      icon: IconChartBar,
+      onClick: () => navigate("/progress"),
     },
   ];
 
   return (
-    <div className="flex flex-wrap gap-[26px]">
-      <div className="mt-7 grid w-full gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-2">
-        {metricsData.slice(0, 2).map((metric) => (
-          <MetricsCard key={metric.title} {...metric} />
-        ))}
+    <div className="flex flex-col gap-6 mt-7 w-full">
+      {/* Row 1: Reports + Follow-ups */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        <MetricsCard {...metricsData[0]} />
+        <MetricsCard {...metricsData[1]} />
       </div>
-
-      <div className="mt-[9px] grid w-full gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-        {metricsData.slice(2).map((metric) => (
-          <MetricsCard key={metric.title} {...metric} />
-        ))}
+  
+      {/* Row 2: Pending + Alerts */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        <MetricsCard {...metricsData[2]} />
+        <MetricsCard {...metricsData[3]} />
+      </div>
+  
+      {/* Row 3: Chart card aligned same size */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        <MetricsCard {...metricsData[4]} />
       </div>
     </div>
-  );
+  );  
+  
 };
 
 export default DisplayInfo;

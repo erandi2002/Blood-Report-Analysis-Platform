@@ -121,31 +121,29 @@ function SingleRecordDetails() {
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-    const prompt = `Your role and goal is to be an that will be using this treatment plan ${analysisResult} to create Columns:
-                - Todo: Tasks that need to be started
-                - Doing: Tasks that are in progress
-                - Done: Tasks that are completed
-          
-                Each task should include a brief description. The tasks should be categorized appropriately based on the stage of the treatment process.
-          
-                Please provide the results in the following  format for easy front-end display no quotating or what so ever just pure the structure below:
-
+    const prompt = `You are a helpful AI health assistant analyzing this blood test interpretation:
+                ${analysisResult}
+                From this, create a set of practical follow-up suggestions for the patient. Organize them into 3 sections:
+                 - "Recommended Actions" — steps the patient should consider doing soon (e.g., rechecking tests, consulting a doctor, changing diet).
+                 - "Currently Following" — any self-care actions the patient might already be doing (e.g., drinking more water, researching foods).
+                 - "Completed" — anything the patient has likely already done (e.g., already scheduled a consultation or made a change).
+                Each suggestion should be clear, short, and helpful for the patient. Focus on health tracking, lifestyle adjustments, or talking to a doctor.
+                 Please output the result in this exact format (no explanation, no quotes):
                 {
                   "columns": [
-                    { "id": "todo", "title": "Todo" },
-                    { "id": "doing", "title": "Work in progress" },
-                    { "id": "done", "title": "Done" }
+                  { "id": "todo", "title": "Recommended Actions" },
+                  { "id": "doing", "title": "Currently Following" },
+                  { "id": "done", "title": "Completed" }
                   ],
                   "tasks": [
-                    { "id": "1", "columnId": "todo", "content": "Example task 1" },
-                    { "id": "2", "columnId": "todo", "content": "Example task 2" },
-                    { "id": "3", "columnId": "doing", "content": "Example task 3" },
-                    { "id": "4", "columnId": "doing", "content": "Example task 4" },
-                    { "id": "5", "columnId": "done", "content": "Example task 5" }
+                  { "id": "1", "columnId": "todo", "content": "Schedule blood test in 3 weeks" },
+                  { "id": "2", "columnId": "todo", "content": "Discuss high cholesterol with a doctor" },
+                  { "id": "3", "columnId": "doing", "content": "Limiting sugar intake daily" },
+                  { "id": "4", "columnId": "doing", "content": "Taking Vitamin B12 supplement" },
+                  { "id": "5", "columnId": "done", "content": "Started food journal to track diet" }
                   ]
-                }
-                            
-                `;
+                } `;
+
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
