@@ -74,9 +74,23 @@ function SingleRecordDetails() {
 
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-      const prompt = `You are an expert cancer and any disease diagnosis analyst. Use your knowledge base to answer questions about giving personalized recommended treatments.
-        give a detailed treatment plan for me, make it more readable, clear and easy to understand make it paragraphs to make it more readable
-        `;
+      const prompt = `You are a highly skilled medical assistant specializing in interpreting blood test reports for patients.
+                    Analyze the attached blood report image and explain the results clearly and simply.                    
+                    Follow this format:
+                    1. **Overview**  
+                    Briefly describe the patient's overall blood health in 2-3 easy-to-understand sentences.
+
+                    2. **Key Highlights**  
+                    List any values that are outside the normal range (e.g., low hemoglobin, high WBC). Keep it clear and short.
+
+                    3. **Interpretation**  
+                    Explain what those values might mean in everyday language. Avoid using difficult medical terms. Keep sentences short and clear.
+
+                    4. **Recommendations**  
+                    Suggest simple next steps (like repeating the test, improving diet, seeing a doctor). Keep it calm and supportive.
+                    **Tone:** Use friendly, clear, and reassuring language. Avoid technical or scary words.  
+                    Write in short paragraphs so it's easy to read.  
+                    If everything looks normal, clearly say that the report is healthy and no action is needed.`;
 
       const result = await model.generateContent([prompt, ...imageParts]);
       const response = await result.response;
@@ -88,7 +102,7 @@ function SingleRecordDetails() {
         kanbanRecords: "",
       });
       setUploadSuccess(true);
-      setIsModalOpen(false); // Close the modal after a successful upload
+      setIsModalOpen(false); 
       setFilename("");
       setFile(null);
       setFileType("");
@@ -176,10 +190,10 @@ function SingleRecordDetails() {
               <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-[#13131a]">
                 <div className="border-b border-gray-200 px-6 py-4 dark:border-neutral-700">
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-                    Personalized AI-Driven Treatment Plan
+                    Personalized Blood Test Interpretation
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-neutral-400">
-                    A tailored medical strategy leveraging advanced AI insights.
+                  Understand your blood results with help from AI
                   </p>
                 </div>
                 <div className="flex w-full flex-col px-6 py-4 text-white">

@@ -46,7 +46,7 @@ const Index = () => {
           userId: currentUser.id,
           recordName: foldername,
           analysisResult: "",
-          details: "",
+          kanbanRecords: "",
           createdBy: user.email.address,
         });
 

@@ -18,7 +18,6 @@ export const Records = pgTable("records", {
     .notNull(),
   recordName: varchar("recort_name").notNull(),
   analysisResult: varchar("analysis_result").notNull(),
-  details: text("details").notNull(), // Full AI-generated analysis text
-  // reportDate: varchar("report_date").notNull(), // date of the report
+  kanbanRecords: varchar("kanban_records").notNull(),
   createdBy: varchar("created_by").notNull(),
 });
